@@ -69,6 +69,7 @@ frame.pack()
 """
 
 # Classes
+"""
 class ButtonsClass:
     def __init__(self, master):
         frame = Frame(master)
@@ -81,6 +82,40 @@ class ButtonsClass:
     
     def printMessage(self):
         print("Lesson 8")
+
 root= Tk()
 b = ButtonsClass(root)
+"""
+#  Menu
+def doNothing():
+    print("Has pinchado en el Menú")
+
+root= Tk()    
+menu = Menu(root)
+root.config(menu=menu)
+
+subMenu = Menu(menu)
+menu.add_cascade(label="File", menu=subMenu)
+subMenu.add_command(label="New Project", command=doNothing)
+subMenu.add_command(label="New", command=doNothing)
+subMenu.add_separator()
+subMenu.add_command(label="Exit", command=doNothing)
+
+editMenu = Menu(menu)
+menu.add_cascade(label="Edit", menu= editMenu)
+editMenu.add_command(label="Redo", command=doNothing)
+
+# Toolbar
+
+toolbar = Frame(root)
+insertButton = Button(toolbar, text="Insert", command=doNothing)
+insertButton.pack(side=LEFT, padx=2, pady=2)
+saveButton = Button(toolbar, text="Save", command= doNothing)
+saveButton.pack(side=LEFT, padx=2, pady=2)
+toolbar.pack(side=TOP, fill=X)
+
+# Status Bar
+
+status = Label(root, text="Waiting", bd=1, relief=SUNKEN, anchor=W)
+status.pack(side=BOTTOM, fill=X)
 root.mainloop()
