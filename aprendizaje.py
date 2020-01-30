@@ -1,5 +1,6 @@
 from tkinter import *
-
+import tkinter.messagebox
+from PIL import ImageTk, Image
 #root = Tk()
 """topFrame = Frame(root)
 topFrame.pack()
@@ -87,6 +88,7 @@ root= Tk()
 b = ButtonsClass(root)
 """
 #  Menu
+"""
 def doNothing():
     print("Has pinchado en el Menú")
 
@@ -118,4 +120,37 @@ toolbar.pack(side=TOP, fill=X)
 
 status = Label(root, text="Waiting", bd=1, relief=SUNKEN, anchor=W)
 status.pack(side=BOTTOM, fill=X)
+"""
+
+root = Tk()
+
+#Messages Box
+"""
+tkinter.messagebox.showinfo('Titulo de la Ventana', 'Mensaje emergente')
+answer = tkinter.messagebox.askquestion('Question 1','¿Do you like animals?')
+if answer == 'yes':
+    print(":)")
+else:
+    print(":(")
+"""
+
+#Shapes and Graphics
+"""
+canvas = Canvas(root, width=200, height=100)
+canvas.pack()
+
+blackLine = canvas.create_line(0,0,200,100)
+redLine = canvas.create_line(0,100,200,0, fill="red")
+greenBox = canvas.create_rectangle(25,25,100,50, fill="green")
+canvas.delete(redLine)
+#DELETE ALL
+canvas.delete(ALL)
+"""
+
+#Insert Photo
+"""
+img = ImageTk.PhotoImage(Image.open(file = "C:/Users/usuario/Desktop/frames/frame_00001.jpg"))  
+label = Label(root,image=img)
+label.pack()
+"""
 root.mainloop()
