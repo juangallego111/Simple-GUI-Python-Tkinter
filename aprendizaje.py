@@ -153,4 +153,11 @@ img = ImageTk.PhotoImage(Image.open(file = "C:/Users/usuario/Desktop/frames/fram
 label = Label(root,image=img)
 label.pack()
 """
+
+#Abrir otra ventana y minimizar la padre
+"""
+    otra_ventana = Tkinter.Toplevel(root)   
+    root.iconify()
+
+"""
 root.mainloop()
