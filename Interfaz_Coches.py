@@ -8,7 +8,7 @@ def canvasInterfaceframe(frame):
     canvasCoches = Canvas(frame, width=800, height=400)
     canvasCoches.grid(row=0, column=0)
     
-    insertButton = Button(frame, text = "Insertar", command = lambda : abrirArchivo(frame))
+    insertButton = Button(frame, text = "Insertar", command = lambda : abrirArchivo(canvasCoches))
     insertButton.grid(row=1, column=0, pady=10)
     #insertButton.bind("<Button-1>", abrirArchivo)
     
@@ -24,23 +24,20 @@ def iniciarVentanas(ventana):
 
 
 def abrirArchivo(canvasCoches):
-        #archivo = filedialog.askopenfile()
-        #img = Image.open(archivo.name)
-        archivoCoches=PhotoImage(file="prueba.png")
-        print("Ahora ha terminado")
-        print(archivoCoches)
-        ima = Label(canvasCoches, image= archivoCoches)
-        ima.grid(row=1, column=1)
-        #canvasCoches.create_image(0,0, image=archivoCoches, anchor=NW)
+        archivo = filedialog.askopenfile()
+        #archivoCoches=PhotoImage(file=archivo.name)
+        global im
+        global ima_prueba
+        im= Image.open(archivo.name)
+        ima_prueba = ImageTk.PhotoImage(im)
+        canvasCoches.create_image(0,0, image=ima_prueba, anchor=NW)
 
 def inicalizacion():
     frameInicio = Frame(ventanaPrincipal)
     frameInicio.pack(fill='both', expand=1, padx=400)
     buttonFoto = Button(frameInicio, text="Fotos")
     buttonFoto.pack(ipadx=10, ipady=10, side=LEFT, padx=100)
-    im= Image.open("prueba.png")
-    ima_prueba = ImageTk.PhotoImage(im)
-    buttonVideo = Button(frameInicio, image=ima_prueba, command=pulsaVideos)
+    buttonVideo = Button(frameInicio, text="Video", command=pulsaVideos)
     buttonVideo.pack(side=LEFT,ipadx=10, ipady=10)
     buttonExit = Button(frameInicio, text="Salir", fg="red")
 
@@ -67,8 +64,7 @@ iniciarVentanas(ventanaPrincipal)
 iniciarVentanas(ventanaVideos)
 ventanaVideos.withdraw()
 
-global im
-global ima_prueba
+
 inicalizacion()
 
 
