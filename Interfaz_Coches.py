@@ -14,9 +14,9 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tessera
 
 CONF_THRESH, NMS_THRESH = 0.5, 0.5
 
-CONFIG = 'darknet/yolov3.cfg'
-WEIGHTS = 'darknet/backup/yolov3_last_final.weights'
-NAMES = 'darknet/obj.names'
+CONFIG = "C:/Users/usuario/Desktop/darknet/yolov3.cfg" #'darknet/yolov31.cfg'
+WEIGHTS = "C:/Users/usuario/Desktop/darknet/backup/yolov3_last_final.weights" #'darknet/backup/yolov3_2000.weights'
+NAMES = "C:/Users/usuario/Desktop/darknet/obj.names" #'darknet/obj.names'
 
 def canvasInterfaceframe(frame):
     canvasCoches = tkinter.Canvas(frame, width=800, height=400, bg="black")
@@ -48,27 +48,44 @@ def abrirArchivo(canvasCoches):
         archivo = filedialog.askopenfile()
         ruta_ima = archivo.name
         #archivoCoches=PhotoImage(file=archivo.name)
-        global ima_prueba
+        global rImg
         im= Image.open(archivo.name)
-        ima_prueba = ImageTk.PhotoImage(im)
-        canvasCoches.create_image(0,0, image=ima_prueba, anchor=tkinter.NW)
+        o_size = im.size
+        f_size= (800,400)
+        factor = min(float(f_size[1])/o_size[1], float(f_size[0])/o_size[0])
+        width = int(o_size[0] * factor)
+        height = int(o_size[1] * factor)
+
+        rImg= im.resize((width, height), Image.ANTIALIAS)
+        rImg = ImageTk.PhotoImage(rImg)
+
+        #ima_prueba = ImageTk.PhotoImage(im)
+
+        canvasCoches.create_image(f_size[0]/2, f_size[1]/2, image=rImg, anchor=tkinter.CENTER)
 
 def mostrar_imagen(canvasCoches):
-    global ima_prueba
+    global rImg
     im= Image.open("resultado"+str(nombre_img)+".jpg")
-    ima_prueba=ImageTk.PhotoImage(im)
-    canvasCoches.create_image(0,0, image=ima_prueba, anchor=tkinter.NW)
+    o_size = im.size
+    f_size= (800,400)
+    factor = min(float(f_size[1])/o_size[1], float(f_size[0])/o_size[0])
+    width = int(o_size[0] * factor)
+    height = int(o_size[1] * factor)
+
+    rImg= im.resize((width, height), Image.ANTIALIAS)
+    rImg = ImageTk.PhotoImage(rImg)
+    canvasCoches.create_image(f_size[0]/2, f_size[1]/2, image=rImg, anchor=tkinter.CENTER)
 
 def inicalizacion():
     frameInicio = tkinter.Frame(ventanaPrincipal)
     frameInicio.pack(fill='both', expand=1, padx=400)
-    buttonFoto = tkinter.Button(frameInicio, text="Fotos")
+    buttonFoto = tkinter.Button(frameInicio, text="Fotos", command=pulsaFotos)
     buttonFoto.pack(ipadx=10, ipady=10, side=LEFT, padx=100)
-    buttonVideo = tkinter.Button(frameInicio, text="Video", command=pulsaVideos)
+    buttonVideo = tkinter.Button(frameInicio, text="Video")
     buttonVideo.pack(side=LEFT,ipadx=10, ipady=10)
     #buttonExit = tkinter.Button(frameInicio, text="Salir", fg="red")
 
-def pulsaVideos():
+def pulsaFotos():
     ventanaVideos.deiconify()
     ventanaPrincipal.withdraw()
     frameCanvas = tkinter.Frame(ventanaVideos)
@@ -124,7 +141,6 @@ def ejecutar_red(imagen_red, canvasCoches,combo):
     with open(NAMES, "r") as f:
         classes = [line.strip() for line in f.readlines()]
     colors = np.random.uniform(0, 255, size=(len(classes), 3))
-    
     for index in indices:
         x, y, w, h = b_boxes[index]
         print(x,y,w,h)
@@ -133,7 +149,7 @@ def ejecutar_red(imagen_red, canvasCoches,combo):
         print(texto)
         values = list(combo["values"])
         combo["values"] = values + [texto]
-        cv2.rectangle(img, (x, y), (x + w, y + h), colors[index], 2)
+        cv2.rectangle(img, (x, y), (x + w, y + h), colors[0,index], 2)
     
     global nombre_img
     nombre_img = nombre_img + 1
